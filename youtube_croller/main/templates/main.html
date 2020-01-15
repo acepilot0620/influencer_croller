@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(".btn").on("click", function () {
+                //태그 이름     ~동작되면  ~ 실행 동작
+                alert("데이터를 가져오고 있습니다.\n로딩이 완료될 때까지 잠시 대기해주세요")
+            });
+        })
+    </script>
+    <title>인플루언서 찾기</title>
+    <style>
+        #logo{
+            text-align: center;
+            margin-top: 70px;
+        }
+        #container{
+            width: 60%;
+            text-align: center;
+            margin-top: 150px;
+            margin-bottom: 30px;
+        }
+        #search_bar{
+            position: relative;
+            left: 35%;
+        }
+        .footer{
+            background-color: gray;
+        }
+    </style>
+</head>
+<body style="width: 1920px; height: 900px;">   
+    <div id="logo">
+        <img style="width: 30%;" src="https://www.filmmakers.co.kr/files/member_extra_info/profile_image/512/339/006/6339512.png?20180921102425" alt="">
+    </div>
+    <div id="container">
+        <form id="search_bar" method="POST" class="form-inline my-2 my-lg-0">
+            {% csrf_token %}
+            <img style="width: 10%; margin-right: 10px;" src="https://cdn.1min30.com/wp-content/uploads/2017/03/YouTube-logo.jpg" alt="">
+            <input style="width: 30%;" class="form-control mr-sm-2" type="text" name="search_youtube" placeholder="유튜브 키워드를 입력하세요" aria-label="search">
+            <input style="width: 25%;" class="form-control mr-sm-2" type="text" name="condition" placeholder="최소 구독자 수를 입력하세요" aria-label="condition">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">인플루언서 검색</button>
+        </form>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="row padding_top_50">
+                <div style="margin-top: 30px; margin-bottom: 30px;" class="col text-left">
+                    <img src="http://www.10wonders.com/img/assets/footer/footer_logo.svg">
+                </div>
+                <div style="margin-top: 30px;" class="col text-right">
+                    <a class="float-right" href="https://www.youtube.com/cellystory" target="_blank">
+                        <img src="http://www.10wonders.com/img/assets/footer/youtube.svg">
+                    </a>
+                    <a class="float-right margin_right_5" href="https://www.facebook.com/cellystory.kr/" target="_blank">
+                        <img src="http://www.10wonders.com/img/assets/footer/facebook.svg">
+                    </a>
+                    <a class="float-right margin_right_5" href="https://www.instagram.com/cellystory" target="_blank">
+                        <img src="http://www.10wonders.com/img/assets/footer/instagram.svg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+    
+
+</html>
