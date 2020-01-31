@@ -16,9 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from main.views import main, go_back_and_clean
+from login.views import login,logout,signup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',main,name='home'),
+    path('home/',main,name='home'),
     path('delete/', go_back_and_clean, name="delete"),
+    path('',login, name='login'),
+    path('logout/',logout, name='logout'),
+    path('sign_up/',signup, name='signup'),
+
 ]

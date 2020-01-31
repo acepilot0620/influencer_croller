@@ -12,10 +12,16 @@ from youtube_croller import parse
 
 from django.shortcuts import render,redirect, HttpResponse
 from .models import Result,Search
+from login.models import Account
 
 # Create your views here.
 
 def main(request):
+    context = {}
+    if request.user.is_authenticated:
+        account = Account.objects.get(user=request.user)
+        context.setdefault('nickname', account.nickname)
+        context.setdefault('position', account.position)
     if request.method == 'POST':
         search = request.POST.get('search_youtube')
         condition = request.POST.get('condition')
@@ -34,7 +40,7 @@ def main(request):
             i +=1
         result_all = Result.objects.all()
         return render(request,'youtube_result.html',{'search':search, 'result':result_all, 'condition':condition})
-    return render(request,'main.html')
+    return render(request,'main.html',context)
 
 
 def go_back_and_clean(request):

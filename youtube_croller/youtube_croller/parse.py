@@ -169,4 +169,3 @@ def croller(search):
     driver.close()
 
     return result_list
-
