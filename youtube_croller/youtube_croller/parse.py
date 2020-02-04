@@ -21,10 +21,16 @@ class Result_node():
 
 def croller(search):
 
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
+
     # Youtube 접속
-    driver = webdriver.Chrome('C:/Users/acepi/Downloads/chromedriver.exe')
+    driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options)
     driver.get('https://www.youtube.com/')
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(1)
 
 
     # 검색
