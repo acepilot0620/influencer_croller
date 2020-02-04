@@ -29,12 +29,12 @@ def OrderedSet(list):
 def insta_croller(search):
 
     chrome_options = webdriver.ChromeOptions()
-    #chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
 
     # Instagram 자동로그인
-    #driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options)  나스에 올릴때
+    #driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options) #NAS에 올릴 때
     driver = webdriver.Chrome('C:/Users/acepi/Downloads/chromedriver.exe', chrome_options = chrome_options) # 로컬에서 돌릴때
     driver.get('https://www.instagram.com/accounts/login/?source=auth_switcher')
     driver.implicitly_wait(1)
@@ -131,10 +131,3 @@ def insta_croller(search):
         if len(result) == 50:
             break
     return result, relevent_keyword_list
-
-    
-
-
-
-
-insta_croller('고양이')

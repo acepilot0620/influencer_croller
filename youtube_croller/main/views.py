@@ -7,11 +7,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import urllib.parse
 import time
-from youtube_croller import parse
+from youtube_croller import parse, instagram_parse
 
 
 from django.shortcuts import render,redirect, HttpResponse
-from .models import Result,Search
+from .models import Youtube_result,Search,Instagram_result
 from login.models import Account
 
 # Create your views here.
@@ -23,29 +23,54 @@ def main(request):
         context.setdefault('nickname', account.nickname)
         context.setdefault('position', account.position)
     if request.method == 'POST':
-        search = request.POST.get('search_youtube')
+
+        youtube_search = request.POST.get('search_youtube')
         condition = request.POST.get('condition')
-        condition = int(condition)
-        result_list = parse.croller(search)
-        i = 1
-        for node in result_list:
-            result = Result()
-            result.id = i
-            result.channel_name = node.channel_name
-            result.subscriber_num = node.subscriber_num
-            result.not_int_subscriber_num = node.not_int_subscriber_num
-            result.ten_avg_visit_num = node.channel_avg_visit_num
-            result.profile_url = node.profile_url
-            result.save()
-            i +=1
-        result_all = Result.objects.all()
-        return render(request,'youtube_result.html',{'search':search, 'result':result_all, 'condition':condition})
+        insta_search = request.POST.get('search_insta')
+
+        if youtube_search != None:
+            condition = int(condition)
+            result_list = parse.croller(youtube_search)
+            i = 1
+            for node in result_list:
+                result = Youtube_result()
+                result.id = i
+                result.channel_name = node.channel_name
+                result.subscriber_num = node.subscriber_num
+                result.not_int_subscriber_num = node.not_int_subscriber_num
+                result.ten_avg_visit_num = node.channel_avg_visit_num
+                result.profile_url = node.profile_url
+                result.save()
+                i +=1
+            result_all = Youtube_result.objects.all()
+            return render(request,'youtube_result.html',{'search':youtube_search, 'result':result_all, 'condition':condition})
+        if insta_search != None:
+            result_list,relevent_keyword_list = instagram_parse.insta_croller(insta_search)
+            output = ''
+            for keyword in relevent_keyword_list:
+                output = output + ('#'+keyword + ', ')
+                if keyword == relevent_keyword_list[-1]:
+                    output = output[:-2]
+
+            i = 1
+            for node in result_list:
+                result = Instagram_result()
+                result.id = i
+                result.insta_id = node.insta_id
+                result.profile_url = node.profile_url
+                result.save()
+                i +=1
+            result_all = Instagram_result.objects.all()
+            return render(request,'instagram_result.html',{'search':insta_search, 'result':result_all, 'relevent_keyword': output})        
     return render(request,'main.html',context)
 
 
+
 def go_back_and_clean(request):
-    old_result = Result.objects.all()
-    old_result.delete()
+    old_youtube_result = Youtube_result.objects.all()
+    old_instagram_result = Instagram_result.objects.all()
+    old_instagram_result.delete()
+    old_youtube_result.delete()
     return redirect('home')
 
     
