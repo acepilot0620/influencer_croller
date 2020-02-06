@@ -28,8 +28,8 @@ def croller(search):
 
 
     # Youtube 접속
-    driver = webdriver.Chrome('C:/Users/acepi/Downloads/chromedriver.exe', chrome_options = chrome_options) # 로컬에서 돌릴때
-    #driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options) #NAS에서 돌릴 때
+    #driver = webdriver.Chrome('C:/Users/acepi/Downloads/chromedriver.exe', chrome_options = chrome_options) # 로컬에서 돌릴때
+    driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options) #NAS에서 돌릴 때
     driver.get('https://www.youtube.com/')
     driver.implicitly_wait(1)
 

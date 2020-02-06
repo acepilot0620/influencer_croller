@@ -34,8 +34,8 @@ def insta_croller(search):
     chrome_options.add_argument('--disable-dev-shm-usage')
 
     # Instagram 자동로그인
-    #driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options) #NAS에 올릴 때
-    driver = webdriver.Chrome('C:/Users/acepi/Downloads/chromedriver.exe', chrome_options = chrome_options) # 로컬에서 돌릴때
+    driver = webdriver.Chrome('/usr/local/bin/chromedriver', chrome_options = chrome_options) #NAS에 올릴 때
+    #driver = webdriver.Chrome('C:/Users/acepi/Downloads/chromedriver.exe', chrome_options = chrome_options) # 로컬에서 돌릴때
     driver.get('https://www.instagram.com/accounts/login/?source=auth_switcher')
     driver.implicitly_wait(1)
     email = driver.find_element_by_xpath("//*[@id='react-root']/section/main/div/article/div/div[1]/div/form/div[2]/div/label/input")
