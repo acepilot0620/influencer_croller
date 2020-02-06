@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import main, go_back_and_clean
+from main.views import main, go_back_and_clean,create_contract,show_record,confirm,delete,wait,delete_contract
 from login.views import login,logout,signup
 
 urlpatterns = [
@@ -25,5 +25,10 @@ urlpatterns = [
     path('',login, name='login'),
     path('logout/',logout, name='logout'),
     path('sign_up/',signup, name='signup'),
-
+    path('create_contract/',create_contract,name='create_contract'),
+    path('contract_board/<int:contract_id>',show_record,name='contract_board'),
+    path('confirm/<int:record_id><int:contract_id>',confirm,name='confirm'),
+    path('delete/<int:record_id><int:contract_id>',delete,name='delete'),
+    path('wait/<int:record_id><int:contract_id>',wait,name='wait'),
+    path('delete_contract/<int:contract_id>',delete_contract,name='delete_contract'),
 ]

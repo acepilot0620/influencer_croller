@@ -10,8 +10,8 @@ import time
 from youtube_croller import parse, instagram_parse
 
 
-from django.shortcuts import render,redirect, HttpResponse
-from .models import Youtube_result,Search,Instagram_result
+from django.shortcuts import render,redirect, HttpResponse, get_object_or_404
+from .models import Youtube_result,Search,Instagram_result,Contract,Record,Celly_id
 from login.models import Account
 
 # Create your views here.
@@ -19,7 +19,9 @@ from login.models import Account
 def main(request):
     context = {}
     if request.user.is_authenticated:
+        contract = Contract.objects.all()
         account = Account.objects.get(user=request.user)
+        context.setdefault('contract', contract)
         context.setdefault('nickname', account.nickname)
         context.setdefault('position', account.position)
     if request.method == 'POST':
@@ -73,13 +75,67 @@ def go_back_and_clean(request):
     old_youtube_result.delete()
     return redirect('home')
 
-    
+def create_contract(request):
+    if request.method == 'POST':
+        company_name = request.POST.get('company_name')
+        category = request.POST.get('category')
+        end_date = request.POST.get('end_date')
+        new_contract = Contract()
+        new_contract.name = company_name
+        new_contract.category = category
+        new_contract.end_date = end_date
+        new_contract.save()
+        return redirect('home')
+    return render(request,'create_contract.html')
 
-    
+def delete_contract(request, contract_id):
+    contract = Contract.objects.get(id=contract_id)
+    contract.delete()
+    return redirect('home')
 
+def show_record(request,contract_id):
+    context = {}
+    account = Account.objects.get(user=request.user)
+    contract = get_object_or_404(Contract,pk=contract_id)
+    record = Record.objects.all().filter(contract=contract)
+    context.setdefault('account', account)
+    context.setdefault('record', record)
+    context.setdefault('contract', contract)
+    if request.method == 'POST':
+        insta_id = request.POST.get('insta_id')
+        influencer = request.POST.get('influencer')
+        feed_condition = request.POST.get('feed_condition')
+        new_record = Record()
+        new_record.contract = contract
+        new_record.insta_id = insta_id
+        new_record.influencer = influencer
+        new_record.feed_condition = feed_condition
+        new_record.is_confirmed = False
+        new_record.save()
+        return render(request,'contract_board.html',context)
+    return render(request,'contract_board.html',context)
 
+def confirm(request, record_id, contract_id):
+    contract = get_object_or_404(Contract, pk = contract_id)
+    record = Record.objects.get(id=record_id)
+    record.is_confirmed = True
+    record.save()
+    return redirect('/contract_board/'+str(contract_id))
 
-        
+def wait(request, record_id,contract_id):
+    contract = get_object_or_404(Contract, pk = contract_id)
+    record = Record.objects.get(id=record_id)
+    record.is_confirmed = False
+    record.save()
+    return redirect('/contract_board/'+str(contract_id))
+
+def delete(request, record_id, contract_id):
+    contract = get_object_or_404(Contract, pk = contract_id)
+    record = Record.objects.filter(contract=contract, id=record_id)
+    record.delete()
+    return redirect('/contract_board/'+str(contract_id))
+
+ 
 
 
 

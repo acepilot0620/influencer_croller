@@ -16,4 +16,19 @@ class Instagram_result(models.Model):
     insta_id = models.CharField(max_length=50)
     profile_url = models.CharField(max_length=100)
 
-    
+class Contract(models.Model):
+    name = models.CharField(max_length=30)
+    category = models.CharField(max_length=30)
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField()
+
+class Record(models.Model):
+    contract = models.ForeignKey(Contract,on_delete=models.CASCADE)
+    insta_id = models.CharField(max_length=30)
+    influencer = models.CharField(max_length=30)
+    feed_condition = models.CharField(max_length=30)
+    is_confirmed = models.BooleanField()
+
+class Celly_id(models.Model):
+    account_id = models.CharField(max_length=20)
+    is_checked = models.BooleanField()
